@@ -3,9 +3,7 @@ use std::{fs::File, io::Read};
 /// Read the instruction file into a string
 fn read_file(filename: &str) -> Result<String, Box<dyn std::error::Error>> {
     let mut data = String::new();
-    let mut file = File::open(filename)?;
-    file.read_to_string(&mut data)?;
-
+    File::open(filename)?.read_to_string(&mut data)?;
     Ok(data)
 }
 
@@ -56,20 +54,19 @@ impl Location {
 
 /// Parse an instruction from a line in the file
 fn parse_instruction(line: String) -> Option<Instruction> {
-    let dir: Direction;
     let split: Vec<&str> = line.split_whitespace().collect();
     let distance: i32 = split[1].parse().unwrap();
 
-    match split[0] {
-        "up" => dir = Direction::Up,
-        "down" => dir = Direction::Down,
-        "forward" => dir = Direction::Forward,
+    let dir = match split[0] {
+        "up" => Direction::Up,
+        "down" => Direction::Down,
+        "forward" => Direction::Forward,
         _ => return None,
-    }
+    };
 
     Some(Instruction {
         direction: dir,
-        distance: distance,
+        distance,
     })
 }
 
@@ -79,7 +76,6 @@ fn part_one(directions_file: &str) {
     // Read our instructions
     read_file(directions_file)
         .unwrap()
-        .as_str()
         // line by line
         .lines()
         // translate the instruction string into something we understand
@@ -95,7 +91,6 @@ fn part_two(directions_file: &str) {
 
     read_file(directions_file)
         .unwrap()
-        .as_str()
         // line by line
         .lines()
         // translate the instruction string into something we understand
@@ -107,6 +102,7 @@ fn part_two(directions_file: &str) {
 }
 
 fn main() {
-    part_one("resources/instructions.txt");
-    part_two("resources/instructions.txt");
+    let filepath = format!("{}/resources/instructions.txt", env!("CARGO_MANIFEST_DIR"));
+    part_one(&filepath);
+    part_two(&filepath);
 }

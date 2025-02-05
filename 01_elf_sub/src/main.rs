@@ -61,15 +61,14 @@ fn part_two(measurements_file: &str) -> Result<(), Box<dyn std::error::Error>> {
 
 fn read_file(filename: &str) -> Result<String, Box<dyn std::error::Error>> {
     let mut data = String::new();
-    let mut file = File::open(filename)?;
-    file.read_to_string(&mut data)?;
-
+    File::open(filename)?.read_to_string(&mut data)?;
     Ok(data)
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    part_one("resources/measurements.txt")?;
-    part_two("resources/measurements.txt")?;
+    let filepath = format!("{}/resources/measurements.txt", env!("CARGO_MANIFEST_DIR"));
+    part_one(&filepath)?;
+    part_two(&filepath)?;
 
     Ok(())
 }

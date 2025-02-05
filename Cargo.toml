@@ -1,0 +1,9 @@
+[workspace]
+resolver = "2"
+members = ["01_elf_sub", "02_sub_pilot"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+
+[workspace.dependencies]
+itertools = "0"
